@@ -120,6 +120,8 @@
             if executable('ctags')
                 Bundle 'majutsushi/tagbar'
             endif
+            Bundle 'tpope/vim-commentary'
+            "Bundle 'scrooloose/nerdcommenter'
     " }
 
     " Snippets & AutoComplete {
