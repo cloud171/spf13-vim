@@ -2,9 +2,9 @@ REM @if not exist "%HOME%" @set HOME=%USERPROFILE%
 @set HOME=%USERPROFILE%
 
 IF EXIST "%HOME%\Dropbox\"
-  @set APP_DIR=%HOME%\Dropbox\.vim_git
+  @set APP_DIR=%HOME%\Dropbox\.vimfiles
 ) ELSE (
-  @set APP_DIR=%HOME%\.vim_git
+  @set APP_DIR=%HOME%\.vimfiles
 )
 
 IF NOT EXIST "%APP_DIR%" (
