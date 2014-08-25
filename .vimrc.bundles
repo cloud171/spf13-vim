@@ -97,7 +97,7 @@
             "prints out 256 colors
             Bundle 'guns/xterm-color-table.vim'
 
-            Bundle 'christoomey/vim-tmux-navigator'
+            "Bundle 'christoomey/vim-tmux-navigator'
             "Bundle 'altercation/vim-colors-solarized'
             "Bundle 'mbbill/undotree'
             "Bundle 'vim-scripts/restore_view.vim'
