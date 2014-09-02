@@ -1,7 +1,7 @@
 REM @if not exist "%HOME%" @set HOME=%USERPROFILE%
 @set HOME=%USERPROFILE%
 
-IF EXIST "%HOME%\Dropbox\"
+IF EXIST "%HOME%\Dropbox\" (
   @set APP_DIR=%HOME%\Dropbox\.vimfiles
 ) ELSE (
   @set APP_DIR=%HOME%\.vimfiles
