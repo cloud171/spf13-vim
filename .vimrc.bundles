@@ -75,7 +75,7 @@
                     Bundle 'FelikZ/ctrlp-py-matcher'
                 else
                     Bundle 'JazzCore/ctrlp-cmatcher'
-                end if
+                endif
                 Bundle 'd11wtq/ctrlp_bdelete.vim'
             " }
             Bundle 'tacahiroy/ctrlp-funky'
