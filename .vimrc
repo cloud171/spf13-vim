@@ -56,7 +56,6 @@
     "set mouse=a                 " Automatically enable mouse usage
     set mousehide               " Hide the mouse cursor while typing
     scriptencoding utf-8
-    set ff=unix                 " Set file type to unix always
 
     if has('clipboard')
         if has('unnamedplus')  " When possible use + register for copy-paste
