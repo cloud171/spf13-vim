@@ -71,7 +71,11 @@
             Bundle 'scrooloose/nerdtree'
             " CtrlP {
                 Bundle 'kien/ctrlp.vim'
-                Bundle 'JazzCore/ctrlp-cmatcher'
+                if has('win32unix') && has('python')
+                    Bundle 'FelikZ/ctrlp-py-matcher'
+                else
+                    Bundle 'JazzCore/ctrlp-cmatcher'
+                end if
                 Bundle 'd11wtq/ctrlp_bdelete.vim'
             " }
             Bundle 'tacahiroy/ctrlp-funky'
@@ -82,13 +86,17 @@
             Bundle 'flazz/vim-colorschemes'
             Bundle 'cloud171/base16-vim'
             Bundle 'spiiph/vim-space'
-            Bundle 'justinmk/vim-gtfo'
+            "Bundle 'justinmk/vim-gtfo'
+            Bundle 'cloud171/vim-gtfo'
+
             Bundle 'amiorin/vim-project'
             Bundle 'MarcWeber/vim-addon-local-vimrc'
             Bundle 'myusuf3/numbers.vim'
             Bundle 'tpope/vim-dispatch'
             Bundle 'mhinz/vim-startify'
             Bundle 'terryma/vim-expand-region'
+            Bundle 'tpope/vim-rsi'
+            Bundle 'benmills/vimux'
 
            " Need to fix or roll own 
             Bundle 'johnsyweb/vim-makeshift'
@@ -97,7 +105,7 @@
             "prints out 256 colors
             Bundle 'guns/xterm-color-table.vim'
 
-            Bundle 'christoomey/vim-tmux-navigator'
+            "Bundle 'christoomey/vim-tmux-navigator'
             "Bundle 'altercation/vim-colors-solarized'
             "Bundle 'mbbill/undotree'
             "Bundle 'vim-scripts/restore_view.vim'

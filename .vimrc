@@ -490,36 +490,39 @@
                 call ctrlp_bdelete#init()
             endif
 
+            if isdirectory(expand("~/.vim/bundle/ctrlp-py-matcher/"))
+                let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+            endif
 "            if isdirectory(expand("~/.vim/bundle/ctrlp-cmatcher/"))
 "                let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 "            endif
-        endif
-    "}
+"         endif
+"     "}
 
-    " TagBar {
-        if isdirectory(expand("~/.vim/bundle/tagbar/"))
-            nnoremap <silent> <leader>tt :TagbarToggle<CR>
+"     " TagBar {
+"         if isdirectory(expand("~/.vim/bundle/tagbar/"))
+"             nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
-            " If using go please install the gotags program using the following
-            " go install github.com/jstemmer/gotags
-            " And make sure gotags is in your path
-            let g:tagbar_type_go = {
-                \ 'ctagstype' : 'go',
-                \ 'kinds'     : [  'p:package', 'i:imports:1', 'c:constants', 'v:variables',
-                    \ 't:types',  'n:interfaces', 'w:fields', 'e:embedded', 'm:methods',
-                    \ 'r:constructor', 'f:functions' ],
-                \ 'sro' : '.',
-                \ 'kind2scope' : { 't' : 'ctype', 'n' : 'ntype' },
-                \ 'scope2kind' : { 'ctype' : 't', 'ntype' : 'n' },
-                \ 'ctagsbin'  : 'gotags',
-                \ 'ctagsargs' : '-sort -silent'
-                \ }
-        endif
-    "}
+"             " If using go please install the gotags program using the following
+"             " go install github.com/jstemmer/gotags
+"             " And make sure gotags is in your path
+"             let g:tagbar_type_go = {
+"                 \ 'ctagstype' : 'go',
+"                 \ 'kinds'     : [  'p:package', 'i:imports:1', 'c:constants', 'v:variables',
+"                     \ 't:types',  'n:interfaces', 'w:fields', 'e:embedded', 'm:methods',
+"                     \ 'r:constructor', 'f:functions' ],
+"                 \ 'sro' : '.',
+"                 \ 'kind2scope' : { 't' : 'ctype', 'n' : 'ntype' },
+"                 \ 'scope2kind' : { 'ctype' : 't', 'ntype' : 'n' },
+"                 \ 'ctagsbin'  : 'gotags',
+"                 \ 'ctagsargs' : '-sort -silent'
+"                 \ }
+"         endif
+"     "}
 
 
-    " Fugitive {
-        if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
+"     " Fugitive {
+"         if isdirectory(expand("~/.vim/bundle/vim-fugitive/"))
             nnoremap <silent> <leader>gs :Gstatus<CR>
             nnoremap <silent> <leader>gd :Gdiff<CR>
             nnoremap <silent> <leader>gc :Gcommit<CR>
@@ -917,9 +920,10 @@
         set guioptions-=T           " Remove the toolbar
         set lines=40                " 40 lines of text instead of 24
             if LINUX() && has("gui_running")
-                set guifont=Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
+                set guifont=Powerline\ Consolas:h12
+                "set guifont=Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
             elseif OSX() && has("gui_running")
-                set guifont=Andale\ Mono\ Regular:h12,Menlo\ Regular:h11,Consolas\ Regular:h12,Courier\ New\ Regular:h14
+                set guifont=Powerline\ Consolas:h12
             elseif WINDOWS() && has("gui_running")
               set guifont=Consolas:h10
             endif
