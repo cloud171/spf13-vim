@@ -905,7 +905,13 @@
         let g:startify_change_to_dir = 1
     " }
     " vimwiki {
-        let g:vimwiki_list = [{'path':$HOME.'/.vim/vimwiki', 'path_html':$HOME.'/.vim/vimwiki_html/'}]
+    let parent = $HOME
+    " Use dropbox location if it exists
+    if isdirectory(expand("~/Dropbox/.vimwiki/"))
+        let parent = parent . '/Dropbox/'
+    endif
+
+    let g:vimwiki_list = [{'path':parent.'.vimwiki/', 'path_html':parent.'.vimwiki/html/'}]
     " }
     " numbers {
         let g:numbers_exclude = ['tagbar', 'gundo', 'minibufexpl', 'nerdtree', 'ctrlp']
