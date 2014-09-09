@@ -86,8 +86,7 @@
             Bundle 'flazz/vim-colorschemes'
             Bundle 'cloud171/base16-vim'
             Bundle 'spiiph/vim-space'
-            "Bundle 'justinmk/vim-gtfo'
-            Bundle 'cloud171/vim-gtfo'
+            Bundle 'justinmk/vim-gtfo'
 
             Bundle 'amiorin/vim-project'
             Bundle 'MarcWeber/vim-addon-local-vimrc'

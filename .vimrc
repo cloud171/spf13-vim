@@ -56,6 +56,7 @@
     "set mouse=a                 " Automatically enable mouse usage
     set mousehide               " Hide the mouse cursor while typing
     scriptencoding utf-8
+    set ff=unix                 " Set file tyoe to unix always
 
     if has('clipboard')
         if has('unnamedplus')  " When possible use + register for copy-paste
@@ -205,7 +206,7 @@
     autocmd FileType c,cpp,java,go,php,javascript,python,twig,xml,yml,perl autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
 " }
 
-" Key (re)Mappings {
+" Key (re)Mappings 
 
     " The default leader is '\'
     let mapleader = ','
@@ -225,8 +226,8 @@
 
     
     "mappings to make new line w/o insert
-    nmap <S-Enter> O<ESC>
-    nmap <CR> o<ESC>
+    nnoremap <S-CR> i<ESC>
+    nnoremap <CR> o<ESC>
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     noremap j gj
@@ -331,7 +332,7 @@
     " FIXME: Revert this f70be548
     " fullscreen mode for GVIM and Terminal, need 'wmctrl' in you PATH
     map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
-" }
+" 
 
 " Plugins {
 
