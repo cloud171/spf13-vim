@@ -53,7 +53,7 @@
     " endif
     filetype plugin indent on   " Automatically detect file types.
     syntax on                   " Syntax highlighting
-    "set mouse=a                 " Automatically enable mouse usage
+    set mouse=                 " Automatically enable mouse usage
     set mousehide               " Hide the mouse cursor while typing
     scriptencoding utf-8
     set ff=unix                 " Set file tyoe to unix always
@@ -490,7 +490,9 @@
                 call ctrlp_bdelete#init()
             endif
 
-            if isdirectory(expand("~/.vim/bundle/ctrlp-py-matcher/"))
+            if WINDOWS() && isdirectory(expand("~/.vim/bundle/ctrlp-cmatcher/")) && has('python')
+                let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+            elseif isdirectory(expand("~/.vim/bundle/ctrlp-py-matcher/")) && has('python')
                 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
             endif
 "            if isdirectory(expand("~/.vim/bundle/ctrlp-cmatcher/"))
@@ -903,6 +905,18 @@
         let g:startify_session_detection = 1
         let g:startify_session_autoload = 1
         let g:startify_change_to_dir = 1
+
+        " if WINDOWS()
+        "     let cc_dir='^N:\'
+        " endif
+
+        let g:startify_skiplist = [
+                    \ 'COMMIT_EDITMSG',
+                    \ $VIMRUNTIME .'/doc',
+                    \ 'bundle/.*/doc',
+                    \ '.vimgolf',
+                    \ '^/cygdrive/n',
+                    \ ]
     " }
     " vimwiki {
     let parent = $HOME
@@ -911,7 +925,8 @@
         let parent = parent . '/Dropbox/'
     endif
 
-    let g:vimwiki_list = [{'path':parent.'.vimwiki/', 'path_html':parent.'.vimwiki/html/'}]
+    let g:vimwiki_list = [{'path':parent.'.vimwiki/', 'path_html':parent.'.vimwiki/html/', 'auto_export': 1}]
+    let g:vimwiki_folding = 1
     " }
     " numbers {
         let g:numbers_exclude = ['tagbar', 'gundo', 'minibufexpl', 'nerdtree', 'ctrlp']
