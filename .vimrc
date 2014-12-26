@@ -120,11 +120,19 @@
         endif
     " }
 
+    " print function to change colorschemes {
+    command Hardcopy call Hardcopy()
+    function! Hardcopy()
+        let colors_save = g:colors_name
+        " Visual stuido colorscheme
+        colorscheme blueshift
+        hardcopy
+        execute 'colorscheme' colors_save
+    endfun
+    "}
 " }
 
 " Vim UI {
-
-
     " Color Scheme {
     set background=dark         " Assume a dark background
     if has("gui_running")
@@ -183,6 +191,7 @@
     set foldenable                  " Auto fold code
     set list
     set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    set cinoptions=l1               "  Prevent hanging indent after case statement
 
 " }
 
@@ -206,7 +215,7 @@
     autocmd FileType c,cpp,java,go,php,javascript,python,twig,xml,yml,perl autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
 " }
 
-" Key (re)Mappings 
+" Key (re)Mappings {
 
     " The default leader is '\'
     let mapleader = ','
@@ -223,8 +232,9 @@
     nmap gB :bp<CR>
     nmap <silent> <Leader>bd :bp\|bd#<cr>
 
-
-    
+    " avoid getting into Ex mode 
+    map Q gq
+"
     "mappings to make new line w/o insert
     nnoremap <S-CR> i<ESC>
     nnoremap <CR> o<ESC>
@@ -331,11 +341,10 @@
 
     " FIXME: Revert this f70be548
     " fullscreen mode for GVIM and Terminal, need 'wmctrl' in you PATH
-    map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
-" 
+    " map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+"}
 
 " Plugins {
-
     " Misc {
         if isdirectory(expand("~/.vim/bundle/nerdtree"))
             let g:NERDShutUp=1
@@ -371,7 +380,7 @@
     " }
 
     " Ctags {
-        map <F11> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+        map <F11> :Dispatch! ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
         set tags=./tags;/,~/.vimtags
 
         " Make tags placed in .git/tags file available in all levels of a repository
@@ -414,6 +423,13 @@
             vmap <Leader>a,, :Tabularize /,\zs<CR>
             nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
             vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+            nmap <Leader>a# :Tabularize /#define\s\+\w*\zs<CR>
+            vmap <Leader>a# :Tabularize /#define\s\+\w*\zs<CR>
+            nmap <Leader>a// :Tabularize /\/\/<CR>
+            vmap <Leader>a// :Tabularize /\/\/<CR>
+            nmap <Leader>a=> :Tabularize /=><CR>
+            vmap <Leader>a=> :Tabularize /=><CR>
+
         endif
     " }
 
@@ -443,8 +459,7 @@
     " ctrlp {
         if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
             let g:ctrlp_working_path_mode = 'ra'
-            map <Leader>a :CtrlPMixed<cr>
-            map <Leader>f :CtrlPBuffer<cr>
+            map <Leader>s :CtrlPBuffer<cr>
             map <Leader>t :CtrlPBufTag<cr>
 
             let g:ctrlp_mruf_relative = 1
@@ -483,7 +498,7 @@
                 let g:ctrlp_extensions = ['funky']
 
                 "funky
-                nnoremap <Leader>fu :CtrlPFunky<Cr>
+                nnoremap <Leader>f :CtrlPFunky<Cr>
             endif
 
             if isdirectory(expand("~/.vim/bundle/ctrlp_bdelete.vim/"))
@@ -839,14 +854,6 @@
         endif
     " }
 
-    " FIXME: Isn't this for Syntastic to handle?
-    " Haskell post write lint and check with ghcmod
-    " $ `cabal install ghcmod` if missing and ensure
-    " ~/.cabal/bin is in your $PATH.
-    if !executable("ghcmod")
-        autocmd BufWritePost *.hs GhcModCheckAndLintAsync
-    endif
-
     " UndoTree {
         if isdirectory(expand("~/.vim/bundle/undotree/"))
             nnoremap <Leader>u :UndotreeToggle<CR>
@@ -868,13 +875,6 @@
                 "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=11
             endif
         endif
-    " }
-
-    " Wildfire {
-    let g:wildfire_objects = {
-                \ "*" : ["i'", 'i"', "i)", "i]", "i}", "ip"],
-                \ "html,xml" : ["at"],
-                \ }
     " }
 
     " vim-airline {
@@ -916,6 +916,9 @@
                     \ 'bundle/.*/doc',
                     \ '.vimgolf',
                     \ '^/cygdrive/n',
+                    \ '^n:.*',
+                    \ '^N:.*',
+                    \ '^\\',
                     \ ]
     " }
     " vimwiki {
@@ -925,13 +928,39 @@
         let parent = parent . '/Dropbox/'
     endif
 
+    " auto_export - export to HTML on save
     let g:vimwiki_list = [{'path':parent.'.vimwiki/', 'path_html':parent.'.vimwiki/html/', 'auto_export': 1}]
-    let g:vimwiki_folding = 1
+
+    let g:vimwiki_folding = 'list'      "slow with larger files
+    "let g:vimwiki_list_ignore_newline = 0       "Newlines in a list item are converted to <br />s. 
     " }
     " numbers {
-        let g:numbers_exclude = ['tagbar', 'gundo', 'minibufexpl', 'nerdtree', 'ctrlp']
+        let g:numbers_exclude = ['tagbar', 'gundo', 'minibufexpl', 'nerdtree', 'ctrlp', 'startify']
     " }
-
+    " vim-expand-region {
+        vmap v <Plug>(expand_region_expand)
+        vmap <C-v> <Plug>(expand_region_shrink)
+    " }
+    " vim-smooth-scroll {
+        noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 5)<CR>
+        noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 5)<CR>
+        noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 10)<CR>
+        noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 10)<CR>
+    " }
+    " vim-commentary {
+        " Change default string from /*%s*/
+        autocmd FileType c,cpp set commentstring=//%s
+    " }
+    " ccase.vim {
+    if has('win32unix')
+        " Use perl wrapper for cygwin
+        let g:ccaseCmd = 'Dispatch! cleartool.plx'
+    elseif has('unix')
+        let g:ccaseCmd = 'Dispatch! rcleartool'
+    else
+        let g:ccaseCmd = '!cleartool'
+    endif
+    " }
 " }
 
 " GUI Settings {

@@ -68,6 +68,9 @@
     endif
 
     " General {
+            " put yankstack above the rest so keybinds don't get clobbered
+            " https://github.com/maxbrunsfeld/vim-yankstack/issues/9
+            Bundle 'maxbrunsfeld/vim-yankstack'
             Bundle 'scrooloose/nerdtree'
             " CtrlP {
                 Bundle 'kien/ctrlp.vim'
@@ -92,28 +95,38 @@
             Bundle 'MarcWeber/vim-addon-local-vimrc'
             Bundle 'myusuf3/numbers.vim'
             Bundle 'tpope/vim-dispatch'
-            Bundle 'mhinz/vim-startify'
+            "Bundle 'mhinz/vim-startify'
             Bundle 'terryma/vim-expand-region'
             Bundle 'tpope/vim-rsi'
             Bundle 'benmills/vimux'
 
-           " Need to fix or roll own 
-            Bundle 'johnsyweb/vim-makeshift'
+            " Bundle 'johnsyweb/vim-makeshift'
             Bundle 'nathanaelkane/vim-indent-guides'
 
             "prints out 256 colors
             Bundle 'guns/xterm-color-table.vim'
 
-            "Bundle 'christoomey/vim-tmux-navigator'
-            "Bundle 'altercation/vim-colors-solarized'
-            "Bundle 'mbbill/undotree'
-            "Bundle 'vim-scripts/restore_view.vim'
-            "Bundle 'tpope/vim-abolish.git'
-            "Bundle 'osyo-manga/vim-over'
-            "Bundle 'kana/vim-textobj-user'
-            "Bundle 'kana/vim-textobj-indent'
-            "Bundle 'gcmt/wildfire.vim'
-            "Bundle 'mhinz/vim-signify'
+            Bundle 'goldfeld/vim-seek'
+            Bundle 'triglav/vim-visual-increment'
+            Bundle 'tpope/vim-surround'
+            Bundle 'tpope/vim-repeat'
+            Bundle 'coderifous/textobj-word-column.vim'
+            " Bundle 'Raimondi/YAIFA'
+
+            "fixes I and A in visual mode instead of using block mode
+            Bundle 'kana/vim-niceblock'
+
+            " Smooth scrolling
+            Bundle 'terryma/vim-smooth-scroll'
+
+            " Learn eventually
+            " Bundle 'kana/vim-operator-replace'
+            " Bundle 'kana/vim-textobj-entire'
+            " Bundle 'kana/vim-textobj-fold'
+            " Bundle 'kana/vim-textobj-function'
+            " Bundle 'kana/vim-textobj-indent'
+            " Bundle 'thinca/vim-textobj-between'
+            " Bundle 'thinca/vim-textobj-comment'
     " }
 
     " General Programming {
@@ -121,7 +134,7 @@
 "            Bundle 'scrooloose/nerdcommenter'
             Bundle 'tpope/vim-fugitive'
             Bundle 'godlygeek/tabular'
-            Bundle 'vim-scripts/ccase.vim'
+            Bundle 'cloud171/ccase.vim'
             Bundle 'octol/vim-cpp-enhanced-highlight'
             Bundle 'vim-scripts/gtags.vim'
             if executable('ctags')
