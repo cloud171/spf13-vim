@@ -102,6 +102,10 @@
             " Bundle 'johnsyweb/vim-makeshift'
             Bundle 'nathanaelkane/vim-indent-guides'
 
+            " Rst stuff
+            Bundle 'Rykka/InstantRst'
+            Bundle 'Rykka/riv.vim'
+
             "prints out 256 colors
             Bundle 'guns/xterm-color-table.vim'
 
