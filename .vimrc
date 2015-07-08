@@ -140,7 +140,7 @@
         let g:airline_powerline_fonts = 1
     else
         colorscheme base16-tomorrow
-        let g:airline_theme='tomorrow'
+        let g:airline_theme='tomorrow_mod'
         let g:airline_powerline_fonts = 1
     endif
     " }
@@ -206,7 +206,7 @@
     set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
     set splitright                  " Puts new vsplit windows to the right of the current
     set splitbelow                  " Puts new split windows to the bottom of the current
-    set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
+    set pastetoggle=<F10>           " pastetoggle (sane indentation on pastes)
     "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
     " Remove trailing whitespaces and ^M chars
     " To disable the stripping of whitespace, add the following to your
@@ -227,18 +227,11 @@
     map <C-L> <C-W>l
     map <C-H> <C-W>h
 
-    "Buffer navigation
-    nmap gb :bn<CR>
-    nmap gB :bp<CR>
     nmap <silent> <Leader>bd :bp\|bd#<cr>
 
     " avoid getting into Ex mode 
     map Q gq
 "
-    "mappings to make new line w/o insert
-    nnoremap <S-CR> i<ESC>
-    nnoremap <CR> o<ESC>
-
     " Wrapped lines goes down/up to next row, rather than next line in file.
     noremap j gj
     noremap k gk
@@ -294,6 +287,10 @@
         cmap Tabe tabe
     endif
 
+    " yankstack {
+    let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
+    call yankstack#setup()
+    " }
     " Yank from the cursor to the end of the line, to be consistent with C and D.
     nnoremap Y y$
 
@@ -459,7 +456,7 @@
     " ctrlp {
         if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
             let g:ctrlp_working_path_mode = 'ra'
-            map <Leader>s :CtrlPBuffer<cr>
+            map <Leader>d :CtrlPBuffer<cr>
             map <Leader>t :CtrlPBufTag<cr>
 
             let g:ctrlp_mruf_relative = 1
@@ -961,6 +958,22 @@
         let g:ccaseCmd = '!cleartool'
     endif
     " }
+    " vim-sneak {
+    let g:sneak#streak = 1
+    " }
+    " camelcase {
+    map <silent> w <Plug>CamelCaseMotion_w
+    map <silent> b <Plug>CamelCaseMotion_b
+    map <silent> e <Plug>CamelCaseMotion_e
+    sunmap w
+    sunmap b
+    sunmap e
+    omap <silent> iw <Plug>CamelCaseMotion_iw
+    xmap <silent> iw <Plug>CamelCaseMotion_iw
+    omap <silent> ib <Plug>CamelCaseMotion_ib
+    xmap <silent> ib <Plug>CamelCaseMotion_ib
+    omap <silent> ie <Plug>CamelCaseMotion_ie
+    xmap <silent> ie <Plug>CamelCaseMotion_ie" }
 " }
 
 " GUI Settings {

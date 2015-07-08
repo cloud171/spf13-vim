@@ -71,7 +71,8 @@
             " put yankstack above the rest so keybinds don't get clobbered
             " https://github.com/maxbrunsfeld/vim-yankstack/issues/9
             Bundle 'maxbrunsfeld/vim-yankstack'
-            Bundle 'scrooloose/nerdtree'
+            " Has to be above other movement related addons
+            Bundle 'linktohack/vim-space'
             " CtrlP {
                 Bundle 'kien/ctrlp.vim'
                 if has('win32unix') && has('python')
@@ -81,37 +82,39 @@
                 endif
                 Bundle 'd11wtq/ctrlp_bdelete.vim'
             " }
+            Bundle 'scrooloose/nerdtree'
             Bundle 'tacahiroy/ctrlp-funky'
             Bundle 'terryma/vim-multiple-cursors'
             Bundle 'matchit.zip'
             Bundle 'bling/vim-airline'
-            Bundle 'Lokaltog/vim-easymotion'
             Bundle 'flazz/vim-colorschemes'
             Bundle 'cloud171/base16-vim'
-            Bundle 'spiiph/vim-space'
             Bundle 'justinmk/vim-gtfo'
 
             Bundle 'amiorin/vim-project'
             Bundle 'MarcWeber/vim-addon-local-vimrc'
             Bundle 'myusuf3/numbers.vim'
             Bundle 'tpope/vim-dispatch'
-            "Bundle 'mhinz/vim-startify'
+            Bundle 'mhinz/vim-startify'
             Bundle 'terryma/vim-expand-region'
             Bundle 'tpope/vim-rsi'
-            Bundle 'benmills/vimux'
-
+            Bundle 'bkad/CamelCaseMotion'
             " Bundle 'johnsyweb/vim-makeshift'
             Bundle 'nathanaelkane/vim-indent-guides'
 
             "prints out 256 colors
             Bundle 'guns/xterm-color-table.vim'
 
-            Bundle 'goldfeld/vim-seek'
-            Bundle 'triglav/vim-visual-increment'
-            Bundle 'tpope/vim-surround'
+            "Bundle 'tpope/vim-unimpaired'
             Bundle 'tpope/vim-repeat'
+            Bundle 'tpope/vim-surround'
+            Bundle 'justinmk/vim-sneak'
+            Bundle 'triglav/vim-visual-increment'
             Bundle 'coderifous/textobj-word-column.vim'
-            " Bundle 'Raimondi/YAIFA'
+
+            "Tmux stuff
+            Bundle 'benmills/vimux'
+            Bundle 'tpope/vim-tbone'
 
             "fixes I and A in visual mode instead of using block mode
             Bundle 'kana/vim-niceblock'
@@ -120,6 +123,7 @@
             Bundle 'terryma/vim-smooth-scroll'
 
             " Learn eventually
+            " Bundle 'Lokaltog/vim-easymotion'
             " Bundle 'kana/vim-operator-replace'
             " Bundle 'kana/vim-textobj-entire'
             " Bundle 'kana/vim-textobj-fold'
@@ -137,9 +141,9 @@
             Bundle 'cloud171/ccase.vim'
             Bundle 'octol/vim-cpp-enhanced-highlight'
             Bundle 'vim-scripts/gtags.vim'
-            if executable('ctags')
+            " if executable('ctags')
                 Bundle 'majutsushi/tagbar'
-            endif
+            " endif
             Bundle 'tpope/vim-commentary'
             "Bundle 'scrooloose/nerdcommenter'
     " }
