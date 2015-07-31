@@ -177,7 +177,6 @@
     set backspace=indent,eol,start  " Backspace for dummies
     set linespace=0                 " No extra spaces between rows
     set nu                          " Line numbers on
-    set showmatch                   " Show matching brackets/parenthesis
     set incsearch                   " Find as you type search
     set hlsearch                    " Highlight search terms
     set winminheight=0              " Windows can be 0 line high
@@ -192,6 +191,10 @@
     set list
     set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
     set cinoptions=l1               "  Prevent hanging indent after case statement
+
+    " Show matching brackets/parenthesis
+    set showmatch
+    hi MatchParen cterm=bold ctermbg=none ctermfg=white
 
 " }
 
@@ -213,6 +216,10 @@
     " .vimrc.before.local file:
     "   let g:spf13_keep_trailing_whitespace = 1
     autocmd FileType c,cpp,java,go,php,javascript,python,twig,xml,yml,perl autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
+
+    " Disable auto insert of comments after a new line
+    au FileType c,cpp setlocal comments-=:// comments+=f://
+
 " }
 
 " Key (re)Mappings {
@@ -287,10 +294,6 @@
         cmap Tabe tabe
     endif
 
-    " yankstack {
-    let g:yankstack_yank_keys = ['c', 'C', 'd', 'D', 'x', 'X', 'y', 'Y']
-    call yankstack#setup()
-    " }
     " Yank from the cursor to the end of the line, to be consistent with C and D.
     nnoremap Y y$
 
@@ -960,6 +963,7 @@
     " }
     " vim-sneak {
     let g:sneak#streak = 1
+    let g:sneak#s_next = 1
     " }
     " camelcase {
     map <silent> w <Plug>CamelCaseMotion_w
@@ -973,7 +977,29 @@
     omap <silent> ib <Plug>CamelCaseMotion_ib
     xmap <silent> ib <Plug>CamelCaseMotion_ib
     omap <silent> ie <Plug>CamelCaseMotion_ie
-    xmap <silent> ie <Plug>CamelCaseMotion_ie" }
+    xmap <silent> ie <Plug>CamelCaseMotion_ie
+    " }
+    " junegunn/rainbow_parentheses.vim {
+    let g:rainbow#pairs = [['(', ')'], ['[', ']'] ] ", ['{', '}']]
+    au VimEnter * RainbowParentheses
+    " }
+    " easyalign {
+    " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+    vmap <Enter> <Plug>(EasyAlign)
+
+    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+    nmap ga <Plug>(EasyAlign)"
+    " }
+    " fswitch {
+    nmap <leader>ss :FSHere<cr>
+    nmap <leader>sh :FSLeft<cr>
+    nmap <leader>sl :FSRight<cr>
+    nmap <leader>sj :FSBelow<cr>
+    nmap <leader>sk :FSAbove<cr>
+    nmap <leader>sH :FSSplitLeft<cr>
+    nmap <leader>sL :FSSplitRight<cr>
+    nmap <leader>sJ :FSSplitBelow<cr>
+    nmap <leader>sK :FSSplitAbove<cr>
 " }
 
 " GUI Settings {
@@ -1090,7 +1116,6 @@
         call setline(2, substitute(a:cmdline, '.', '=', 'g'))
         execute 'silent $read !' . escape(a:cmdline, '%#')
         setlocal nomodifiable
-        1
     endfunction
 
     command! -complete=file -nargs=+ Shell call s:RunShellCommand(<q-args>)
