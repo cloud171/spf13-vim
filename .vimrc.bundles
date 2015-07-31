@@ -126,6 +126,7 @@
             " Smooth scrolling
             Bundle 'terryma/vim-smooth-scroll'
 
+            Bundle 'taku25/vim-visualstudio'
             " Learn eventually
             " Bundle 'Lokaltog/vim-easymotion'
             " Bundle 'kana/vim-operator-replace'
