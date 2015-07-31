@@ -1,0 +1,220 @@
+" Modeline and Notes {
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+" }
+
+" Environment {
+
+    " Basics {
+        set nocompatible        " Must be first line
+    " }
+
+    " Windows Compatible {
+        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
+        " across (heterogeneous) systems easier.
+        if has('win32') || has('win64')
+          set runtimepath=$USERPROFILE/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$USERPROFILE/.vim/after
+
+          " Be nice and check for multi_byte even if the config requires
+          " multi_byte support most of the time
+          if has("multi_byte")
+            " Windows cmd.exe still uses cp850. If Windows ever moved to
+            " Powershell as the primary terminal, this would be utf-8
+            set termencoding=cp850
+            " Let Vim use utf-8 internally, because many scripts require this
+            set encoding=utf-8
+            setglobal fileencoding=utf-8
+            " Windows has traditionally used cp1252, so it's probably wise to
+            " fallback into cp1252 instead of eg. iso-8859-15.
+            " Newer Windows files might contain utf-8 or utf-16 LE so we might
+            " want to try them first.
+            set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
+          endif
+        endif
+    " }
+
+    " Setup Bundle Support {
+        " The next three lines ensure that the ~/.vim/bundle/ system works
+        filetype off
+        set rtp+=~/.vim/bundle/vundle
+        call vundle#rc()
+    " }
+
+    " Add an UnBundle command {
+    function! UnBundle(arg, ...)
+      let bundle = vundle#config#init_bundle(a:arg, a:000)
+      call filter(g:bundles, 'v:val["name_spec"] != "' . a:arg . '"')
+    endfunction
+
+    com! -nargs=+         UnBundle
+    \ call UnBundle(<args>)
+    " }
+
+" }
+
+" Bundles {
+
+    " Deps {
+        Bundle 'gmarik/vundle'
+        Bundle 'MarcWeber/vim-addon-mw-utils'
+        Bundle 'tomtom/tlib_vim'
+        Bundle 'rking/ag.vim'
+
+    " }
+
+    " In your .vimrc.before.local file
+    " list only the plugin groups you will use
+    if !exists('g:spf13_bundle_groups')
+        let g:spf13_bundle_groups=['neocomplcache']
+    endif
+
+    " General {
+            " Has to be above other movement related addons
+            Bundle 'linktohack/vim-space'
+            " CtrlP {
+                Bundle 'kien/ctrlp.vim'
+                Bundle 'mattn/ctrlp-register'
+                if has('win32unix') && has('python')
+                    Bundle 'FelikZ/ctrlp-py-matcher'
+                else
+                    Bundle 'JazzCore/ctrlp-cmatcher'
+                endif
+                Bundle 'd11wtq/ctrlp_bdelete.vim'
+            " }
+            Bundle 'scrooloose/nerdtree'
+            Bundle 'tacahiroy/ctrlp-funky'
+            Bundle 'terryma/vim-multiple-cursors'
+            Bundle 'matchit.zip'
+            Bundle 'bling/vim-airline'
+            Bundle 'flazz/vim-colorschemes'
+            Bundle 'cloud171/base16-vim'
+            Bundle 'justinmk/vim-gtfo'
+
+            Bundle 'amiorin/vim-project'
+            Bundle 'MarcWeber/vim-addon-local-vimrc'
+            Bundle 'myusuf3/numbers.vim'
+            Bundle 'tpope/vim-dispatch'
+            Bundle 'mhinz/vim-startify'
+            Bundle 'terryma/vim-expand-region'
+            Bundle 'tpope/vim-rsi'
+            Bundle 'bkad/CamelCaseMotion'
+            " Bundle 'johnsyweb/vim-makeshift'
+            Bundle 'nathanaelkane/vim-indent-guides'
+
+            " Rst stuff
+            Bundle 'Rykka/InstantRst'
+            Bundle 'Rykka/riv.vim'
+
+            "prints out 256 colors
+            Bundle 'guns/xterm-color-table.vim'
+
+            "Bundle 'tpope/vim-unimpaired'
+            Bundle 'tpope/vim-repeat'
+            Bundle 'tpope/vim-surround'
+            Bundle 'justinmk/vim-sneak'
+            Bundle 'triglav/vim-visual-increment'
+            Bundle 'coderifous/textobj-word-column.vim'
+
+            "Tmux stuff
+            Bundle 'benmills/vimux'
+            Bundle 'tpope/vim-tbone'
+
+            Bundle 'tpope/vim-abolish'
+
+            "fixes I and A in visual mode instead of using block mode
+            Bundle 'kana/vim-niceblock'
+
+            " Smooth scrolling
+            Bundle 'terryma/vim-smooth-scroll'
+
+            Bundle "junegunn/rainbow_parentheses.vim"
+
+            " Learn eventually
+            " Bundle 'Lokaltog/vim-easymotion'
+            " Bundle 'kana/vim-operator-replace'
+            " Bundle 'kana/vim-textobj-entire'
+            " Bundle 'kana/vim-textobj-fold'
+            " Bundle 'kana/vim-textobj-function'
+            " Bundle 'kana/vim-textobj-indent'
+            " Bundle 'thinca/vim-textobj-between'
+            " Bundle 'thinca/vim-textobj-comment'
+    " }
+
+    " General Programming {
+"            Bundle 'scrooloose/syntastic'
+"            Bundle 'scrooloose/nerdcommenter'
+            Bundle 'tpope/vim-fugitive'
+            Bundle 'junegunn/vim-easy-align'
+            Bundle 'godlygeek/tabular'
+            Bundle 'cloud171/ccase.vim'
+            Bundle 'octol/vim-cpp-enhanced-highlight'
+            Bundle 'vim-scripts/gtags.vim'
+            " if executable('ctags')
+                Bundle 'majutsushi/tagbar'
+            " endif
+            Bundle 'tpope/vim-commentary'
+            "Bundle 'scrooloose/nerdcommenter'
+    " }
+
+    " Snippets & AutoComplete {
+        if count(g:spf13_bundle_groups, 'snipmate')
+            Bundle 'garbas/vim-snipmate'
+            Bundle 'honza/vim-snippets'
+            " Source support_function.vim to support vim-snippets.
+            if filereadable(expand("~/.vim/bundle/vim-snippets/snippets/support_functions.vim"))
+                source ~/.vim/bundle/vim-snippets/snippets/support_functions.vim
+            endif
+        elseif count(g:spf13_bundle_groups, 'youcompleteme')
+            Bundle 'Valloric/YouCompleteMe'
+            Bundle 'SirVer/ultisnips'
+            Bundle 'honza/vim-snippets'
+        elseif count(g:spf13_bundle_groups, 'neocomplcache')
+            Bundle 'Shougo/neocomplcache'
+            Bundle 'Shougo/neosnippet'
+            Bundle 'Shougo/neosnippet-snippets'
+            Bundle 'honza/vim-snippets'
+        elseif count(g:spf13_bundle_groups, 'neocomplete')
+            Bundle 'Shougo/neocomplete.vim.git'
+            Bundle 'Shougo/neosnippet'
+            Bundle 'Shougo/neosnippet-snippets'
+            Bundle 'honza/vim-snippets'
+        endif
+    " }
+
+
+    " Python {
+            " Pick either python-mode or pyflakes & pydoc
+"            Bundle 'klen/python-mode'
+"            Bundle 'python.vim'
+"            Bundle 'python_match.vim'
+"            Bundle 'pythoncomplete'
+    " }
+
+    " Misc {
+            Bundle 'tpope/vim-markdown'
+            Bundle 'vimwiki/vimwiki'
+            "Switch between source/header files
+            Bundle 'derekwyatt/vim-fswitch'
+            "C prototypes
+            Bundle 'derekwyatt/vim-protodef'
+            "show marks
+            Bundle 'kshenoy/vim-signature' 
+            Bundle 'jiangmiao/auto-pairs'
+
+            "Bundle 'spf13/vim-preview'
+            "Bundle 'tpope/vim-cucumber'
+            "Bundle 'quentindecock/vim-cucumber-align-pipes'
+            "Bundle 'Puppet-Syntax-Highlighting'
+    " }
+" }
+
+" Use fork bundles config if available {
+    if filereadable(expand("~/.vimrc.bundles.fork"))
+        source ~/.vimrc.bundles.fork
+    endif
+" }
+
+" Use local bundles config if available {
+    if filereadable(expand("~/.vimrc.bundles.local"))
+        source ~/.vimrc.bundles.local
+    endif
+" }
