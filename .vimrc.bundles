@@ -68,13 +68,11 @@
     endif
 
     " General {
-            " put yankstack above the rest so keybinds don't get clobbered
-            " https://github.com/maxbrunsfeld/vim-yankstack/issues/9
-            Bundle 'maxbrunsfeld/vim-yankstack'
             " Has to be above other movement related addons
             Bundle 'linktohack/vim-space'
             " CtrlP {
                 Bundle 'kien/ctrlp.vim'
+                Bundle 'mattn/ctrlp-register'
                 if has('win32unix') && has('python')
                     Bundle 'FelikZ/ctrlp-py-matcher'
                 else
@@ -120,11 +118,15 @@
             Bundle 'benmills/vimux'
             Bundle 'tpope/vim-tbone'
 
+            Bundle 'tpope/vim-abolish'
+
             "fixes I and A in visual mode instead of using block mode
             Bundle 'kana/vim-niceblock'
 
             " Smooth scrolling
             Bundle 'terryma/vim-smooth-scroll'
+
+            Bundle "junegunn/rainbow_parentheses.vim"
 
             " Learn eventually
             " Bundle 'Lokaltog/vim-easymotion'
@@ -141,6 +143,7 @@
 "            Bundle 'scrooloose/syntastic'
 "            Bundle 'scrooloose/nerdcommenter'
             Bundle 'tpope/vim-fugitive'
+            Bundle 'junegunn/vim-easy-align'
             Bundle 'godlygeek/tabular'
             Bundle 'cloud171/ccase.vim'
             Bundle 'octol/vim-cpp-enhanced-highlight'
@@ -177,6 +180,7 @@
         endif
     " }
 
+
     " Python {
             " Pick either python-mode or pyflakes & pydoc
 "            Bundle 'klen/python-mode'
@@ -188,6 +192,14 @@
     " Misc {
             Bundle 'tpope/vim-markdown'
             Bundle 'vimwiki/vimwiki'
+            "Switch between source/header files
+            Bundle 'derekwyatt/vim-fswitch'
+            "C prototypes
+            Bundle 'derekwyatt/vim-protodef'
+            "show marks
+            Bundle 'kshenoy/vim-signature' 
+            Bundle 'jiangmiao/auto-pairs'
+
             "Bundle 'spf13/vim-preview'
             "Bundle 'tpope/vim-cucumber'
             "Bundle 'quentindecock/vim-cucumber-align-pipes'
