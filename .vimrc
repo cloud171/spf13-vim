@@ -1014,7 +1014,7 @@
             elseif OSX() && has("gui_running")
                 set guifont=Powerline\ Consolas:h12
             elseif WINDOWS() && has("gui_running")
-              set guifont=Consolas:h10
+              set guifont=Powerline\ Consolas:h10
             endif
     else
             set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
