@@ -190,7 +190,9 @@
     set foldenable                  " Auto fold code
     set list
     set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
-    set cinoptions=l1               "  Prevent hanging indent after case statement
+    set cinoptions=l1               " Prevent hanging indent after case statement
+    set cinoptions+=(2              " Prevent double shiftwidth on a new line after an unclosed parenthese
+    set cinoptions+=m1              " Closing parantheses on its own line, lines up with first character of the opening parenthese
 
     " Show matching brackets/parenthesis
     set showmatch
