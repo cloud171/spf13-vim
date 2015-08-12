@@ -11,7 +11,7 @@
     " Windows Compatible {
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
         " across (heterogeneous) systems easier.
-        if has('win32') || has('win64')
+        if has('win32') || has('win64') || has('macunix')
           set runtimepath=$USERPROFILE/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$USERPROFILE/.vim/after
 
           " Be nice and check for multi_byte even if the config requires
@@ -64,14 +64,18 @@
     " In your .vimrc.before.local file
     " list only the plugin groups you will use
     if !exists('g:spf13_bundle_groups')
-        let g:spf13_bundle_groups=['neocomplcache']
+        if has('win32') || has('win64') || has('win32unix') || has('macunix')
+            let g:spf13_bundle_groups=['neocomplcache']
+        else
+            let g:spf13_bundle_groups=['youcompleteme']
+        endif
     endif
 
     " General {
             " Has to be above other movement related addons
             Bundle 'linktohack/vim-space'
             " CtrlP {
-                Bundle 'kien/ctrlp.vim'
+                Bundle 'ctrlpvim/ctrlp.vim'
                 Bundle 'mattn/ctrlp-register'
                 if has('win32unix') && has('python')
                     Bundle 'FelikZ/ctrlp-py-matcher'
@@ -98,7 +102,8 @@
             Bundle 'tpope/vim-rsi'
             Bundle 'bkad/CamelCaseMotion'
             " Bundle 'johnsyweb/vim-makeshift'
-            Bundle 'nathanaelkane/vim-indent-guides'
+            " Bundle 'nathanaelkane/vim-indent-guides'
+            Bundle 'Yggdroot/indentLine'
 
             " Rst stuff
             Bundle 'Rykka/InstantRst'
@@ -123,10 +128,13 @@
             "fixes I and A in visual mode instead of using block mode
             Bundle 'kana/vim-niceblock'
 
+            " Color scheme
+            Bundle 'zenorocha/dracula-theme', {'rtp': 'vim/'}
             " Smooth scrolling
             Bundle 'terryma/vim-smooth-scroll'
 
             Bundle "junegunn/rainbow_parentheses.vim"
+            " Bundle "blueyed/vim-diminactive"
 
             " Learn eventually
             " Bundle 'Lokaltog/vim-easymotion'
@@ -167,6 +175,7 @@
             Bundle 'Valloric/YouCompleteMe'
             Bundle 'SirVer/ultisnips'
             Bundle 'honza/vim-snippets'
+            Bundle 'rdnetto/YCM-Generator'
         elseif count(g:spf13_bundle_groups, 'neocomplcache')
             Bundle 'Shougo/neocomplcache'
             Bundle 'Shougo/neosnippet'
@@ -200,10 +209,6 @@
             Bundle 'kshenoy/vim-signature' 
             Bundle 'jiangmiao/auto-pairs'
 
-            "Bundle 'spf13/vim-preview'
-            "Bundle 'tpope/vim-cucumber'
-            "Bundle 'quentindecock/vim-cucumber-align-pipes'
-            "Bundle 'Puppet-Syntax-Highlighting'
     " }
 " }
 
