@@ -34,12 +34,6 @@
 
 " }
 
-" Use before config if available {
-    if filereadable(expand("~/.vimrc.before"))
-        source ~/.vimrc.before
-    endif
-" }
-
 " Use bundles config {
     if filereadable(expand("~/.vimrc.bundles"))
         source ~/.vimrc.bundles
@@ -431,8 +425,9 @@
              vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
              nmap <Leader>a# :Tabularize /#define\s\+\w*\zs<CR>
              vmap <Leader>a# :Tabularize /#define\s\+\w*\zs<CR>
-             nmap <Leader>a// :Tabularize /\/\/<CR>
-             vmap <Leader>a// :Tabularize /\/\/<CR>
+             " Make this match // or ///< for doxgyen
+             nmap <Leader>a// :/\/\/\(\/<\)\=<CR>
+             vmap <Leader>a// :/\/\/\(\/<\)\=<CR>
              nmap <Leader>a=> :Tabularize /=><CR>
              vmap <Leader>a=> :Tabularize /=><CR>
 
@@ -572,7 +567,7 @@
              nnoremap <leader>jdd :YcmCompleter GoTo<CR>
              nnoremap <leader>jdf :YcmCompleter GoToDefinition<CR>
              nnoremap <leader>jdc :YcmCompleter GoToDeclaration<CR>
-           
+         
              " enable completion from tags
              let g:ycm_collect_identifiers_from_tags_files = 1
 
@@ -997,13 +992,6 @@
      let g:rainbow#pairs = [['(', ')'], ['[', ']'] ] ", ['{', '}']]
      au VimEnter * RainbowParentheses
      " }
-     " easyalign {
-     " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-     vmap <Enter> <Plug>(EasyAlign)
-
-     " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-     nmap ga <Plug>(EasyAlign)"
-     " }
      " fswitch {
      nmap <leader>ss :FSHere<cr>
      nmap <leader>sh :FSLeft<cr>
@@ -1016,6 +1004,11 @@
      nmap <leader>sK :FSSplitAbove<cr>
      " }
      " easy align {
+     " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+     vmap <Enter> <Plug>(EasyAlign)
+
+     " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+     nmap ga <Plug>(EasyAlign)"
      let g:easy_align_delimiters = {
                  \ '>': { 'pattern': '>>\|=>\|>' },
                  \ '/': {

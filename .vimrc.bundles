@@ -134,7 +134,7 @@
             Bundle 'terryma/vim-smooth-scroll'
 
             Bundle "junegunn/rainbow_parentheses.vim"
-            " Bundle "blueyed/vim-diminactive"
+            Bundle "blueyed/vim-diminactive"
 
             " Learn eventually
             " Bundle 'Lokaltog/vim-easymotion'
@@ -199,7 +199,8 @@
     " }
 
     " Misc {
-            Bundle 'tpope/vim-markdown'
+            Bundle "plasticboy/vim-markdown"
+            " Bundle 'tpope/vim-markdown'
             Bundle 'vimwiki/vimwiki'
             "Switch between source/header files
             Bundle 'derekwyatt/vim-fswitch'
