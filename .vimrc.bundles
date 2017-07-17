@@ -64,8 +64,10 @@
     " In your .vimrc.before.local file
     " list only the plugin groups you will use
     if !exists('g:spf13_bundle_groups')
-        if has('win32') || has('win64') || has('win32unix') || has('macunix')
+        if has('win32') || has('win64') || has('macunix')
             let g:spf13_bundle_groups=['neocomplcache']
+        elseif has('win32unix') " Test to see if cygwin speeds up
+            let g:spf13_bundle_groups=['none']
         else
             let g:spf13_bundle_groups=['youcompleteme']
         endif
@@ -74,6 +76,9 @@
     " General {
             " Has to be above other movement related addons
             Bundle 'linktohack/vim-space'
+            if LINUX()
+                Bundle 'junegunn/fzf'
+            else
             " CtrlP {
                 Bundle 'ctrlpvim/ctrlp.vim'
                 Bundle 'mattn/ctrlp-register'
@@ -83,9 +88,11 @@
                     Bundle 'JazzCore/ctrlp-cmatcher'
                 endif
                 Bundle 'd11wtq/ctrlp_bdelete.vim'
+                Bundle 'tacahiroy/ctrlp-funky'
             " }
-            Bundle 'scrooloose/nerdtree'
-            Bundle 'tacahiroy/ctrlp-funky'
+        endif
+            " High resource usage
+            Bundle 'myusuf3/numbers.vim'
             Bundle 'terryma/vim-multiple-cursors'
             Bundle 'matchit.zip'
             Bundle 'bling/vim-airline'
@@ -93,12 +100,11 @@
             Bundle 'cloud171/base16-vim'
             Bundle 'justinmk/vim-gtfo'
 
-            Bundle 'amiorin/vim-project'
+            " Bundle 'amiorin/vim-project'
             Bundle 'MarcWeber/vim-addon-local-vimrc'
-            Bundle 'myusuf3/numbers.vim'
             Bundle 'tpope/vim-dispatch'
-            Bundle 'mhinz/vim-startify'
-            Bundle 'terryma/vim-expand-region'
+            " Bundle 'mhinz/vim-startify'
+            " Bundle 'terryma/vim-expand-region'
             Bundle 'tpope/vim-rsi'
             Bundle 'bkad/CamelCaseMotion'
             " Bundle 'johnsyweb/vim-makeshift'
@@ -106,8 +112,8 @@
             Bundle 'Yggdroot/indentLine'
 
             " Rst stuff
-            Bundle 'Rykka/InstantRst'
-            Bundle 'Rykka/riv.vim'
+            " Bundle 'Rykka/InstantRst'
+            " Bundle 'Rykka/riv.vim' " This takes quite a while to load for some reason
 
             "prints out 256 colors
             Bundle 'guns/xterm-color-table.vim'
@@ -134,7 +140,7 @@
             Bundle 'terryma/vim-smooth-scroll'
 
             Bundle "junegunn/rainbow_parentheses.vim"
-            Bundle "blueyed/vim-diminactive"
+            " Bundle 'blueyed/vim-diminactive'
 
             " Learn eventually
             " Bundle 'Lokaltog/vim-easymotion'
@@ -145,22 +151,26 @@
             " Bundle 'kana/vim-textobj-indent'
             " Bundle 'thinca/vim-textobj-between'
             " Bundle 'thinca/vim-textobj-comment'
-    " }
+    " " }
 
     " General Programming {
-"            Bundle 'scrooloose/syntastic'
+           Bundle 'vim-syntastic/syntastic'
 "            Bundle 'scrooloose/nerdcommenter'
             Bundle 'tpope/vim-fugitive'
             Bundle 'junegunn/vim-easy-align'
             Bundle 'godlygeek/tabular'
             Bundle 'cloud171/ccase.vim'
-            Bundle 'octol/vim-cpp-enhanced-highlight'
             Bundle 'vim-scripts/gtags.vim'
-            " if executable('ctags')
-                Bundle 'majutsushi/tagbar'
-            " endif
             Bundle 'tpope/vim-commentary'
-            "Bundle 'scrooloose/nerdcommenter'
+    " }
+    " CPP {
+    " Bundle 'bbchung/clighter'
+    Bundle 'octol/vim-cpp-enhanced-highlight'
+    if executable('ctags')
+        Bundle 'majutsushi/tagbar'
+    endif
+    Bundle 'vim-scripts/DoxyGen-Syntax'
+    Bundle 'junegunn/fzf.vim'
     " }
 
     " Snippets & AutoComplete {
@@ -189,6 +199,10 @@
         endif
     " }
 
+    Plugin 'pangloss/vim-javascript'
+    Plugin 'moll/vim-node'
+    Plugin 'diepm/vim-rest-console'
+
 
     " Python {
             " Pick either python-mode or pyflakes & pydoc
@@ -199,7 +213,9 @@
     " }
 
     " Misc {
-            Bundle "plasticboy/vim-markdown"
+            " Bundle "plasticboy/vim-markdown"
+            Bundle 'aklt/plantuml-syntax'
+            Bundle 'tex/vimpreviewpandoc'
             " Bundle 'tpope/vim-markdown'
             Bundle 'vimwiki/vimwiki'
             "Switch between source/header files
@@ -209,18 +225,7 @@
             "show marks
             Bundle 'kshenoy/vim-signature' 
             Bundle 'jiangmiao/auto-pairs'
+            Bundle 'kylef/apiblueprint.vim'
 
     " }
-" }
-
-" Use fork bundles config if available {
-    if filereadable(expand("~/.vimrc.bundles.fork"))
-        source ~/.vimrc.bundles.fork
-    endif
-" }
-
-" Use local bundles config if available {
-    if filereadable(expand("~/.vimrc.bundles.local"))
-        source ~/.vimrc.bundles.local
-    endif
 " }

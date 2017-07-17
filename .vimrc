@@ -33,7 +33,11 @@
     " }
 
 " }
-
+" Use before config if available {
+    if filereadable(expand("~/.vimrc.before"))
+        source ~/.vimrc.before
+    endif
+" }
 " Use bundles config {
     if filereadable(expand("~/.vimrc.bundles"))
         source ~/.vimrc.bundles
@@ -41,10 +45,6 @@
 " }
 
  " General {
-
-     " if !has('gui')
-         "set term=$TERM          " Make arrow and other keys work
-     " endif
      filetype plugin indent on   " Automatically detect file types.
      syntax on                   " Syntax highlighting
      set mouse=                 " Automatically enable mouse usage
@@ -103,26 +103,17 @@
              set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
          endif
 
-         " To disable views add the following to your .vimrc.before.local file:
-         "   let g:spf13_no_views = 1
-         if !exists('g:spf13_no_views')
-             " Add exclusions to mkview and loadview
-             " eg: *.*, svn-commit.tmp
-             let g:skipview_files = [
-                 \ '\[example pattern\]'
-                 \ ]
-         endif
      " }
 
      " print function to change colorschemes {
-     command Hardcopy call Hardcopy()
-     function! Hardcopy()
-         let colors_save = g:colors_name
-         " Visual stuido colorscheme
-         colorscheme blueshift
-         hardcopy
-         execute 'colorscheme' colors_save
-     endfun
+     " command Hardcopy call Hardcopy()
+     " function! Hardcopy()
+     "     let colors_save = g:colors_name
+     "     " Visual stuido colorscheme
+     "     colorscheme blueshift
+     "     hardcopy
+     "     execute 'colorscheme' colors_save
+     " endfun
      "}
  " }
 
@@ -145,7 +136,7 @@
      set showmode                    " Display the current mode
      set guioptions=none
 
-     set cursorline                  " Highlight current line
+     " set cursorline                  " Highlight current line (cpu heavy)
 
      highlight clear SignColumn      " SignColumn should match background
      highlight clear LineNr          " Current line number row will have same background color in relative mode
@@ -337,6 +328,11 @@
      map zl zL
      map zh zH
 
+     " Mimick vim-unimpaired {
+     nmap ]<space> o<esc>
+     nmap [<space> O<esc>
+     " }
+
      " Easier formatting
 
      " FIXME: Revert this f70be548
@@ -380,7 +376,8 @@
      " }
 
      " Ctags {
-         map <F11> :Dispatch! ctags -R --c++-kinds=+p --fields=+liaS --extra=+q .<CR>
+         let $PROJDIR = "."
+         map <F11> :execute ':Dispatch! ctags -R --c++-kinds=+p --fields=+liaS --extra=+q ' . $PROJDIR<CR>
          set tags=./tags;/,~/.vimtags
 
          " Make tags placed in .git/tags file available in all levels of a repository
@@ -426,8 +423,8 @@
              nmap <Leader>a# :Tabularize /#define\s\+\w*\zs<CR>
              vmap <Leader>a# :Tabularize /#define\s\+\w*\zs<CR>
              " Make this match // or ///< for doxgyen
-             nmap <Leader>a// :/\/\/\(\/<\)\=<CR>
-             vmap <Leader>a// :/\/\/\(\/<\)\=<CR>
+             nmap <Leader>a// :Tabularize /\/\/\(\/<\)\=<CR>
+             vmap <Leader>a// :Tabularize /\/\/\(\/<\)\=<CR>
              nmap <Leader>a=> :Tabularize /=><CR>
              vmap <Leader>a=> :Tabularize /=><CR>
 
@@ -457,65 +454,71 @@
          endif
      " }
 
+     if LINUX()
+         " fzf {
+         set rtp+=~/.fzf
+         let g:fzf_layout = { 'down': '40%'  } 
+         nmap <C-p> :FZF<cr>
+         " }
      " ctrlp {
-         if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
-             let g:ctrlp_working_path_mode = 'ra'
-             map <Leader>d :CtrlPBuffer<cr>
-             map <Leader>t :CtrlPBufTag<cr>
+     else
+         let g:ctrlp_working_path_mode = 'ra'
+         map <Leader>d :CtrlPBuffer<cr>
+         map <Leader>t :CtrlPBufTag<cr>
 
-             let g:ctrlp_mruf_relative = 1
-             let g:ctrlp_root_markers = ['tags']
-             let g:ctrlp_cmd = 'CtrlPMixed'
-             let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:50'
-             let g:ctrlp_max_files=0
-             let g:ctrlp_max_depth=40
+         let g:ctrlp_mruf_relative = 1
+         let g:ctrlp_root_markers = ['tags']
+         let g:ctrlp_cmd = 'CtrlPMixed'
+         let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:50'
+         let g:ctrlp_max_files=0
+         let g:ctrlp_max_depth=40
 
-             let g:ctrlp_custom_ignore = {
-                 \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-                 \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
+         let g:ctrlp_custom_ignore = {
+                     \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+                     \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
 
-             " On Windows use "dir" as fallback command.
-             if WINDOWS()
-                 let s:ctrlp_fallback = 'dir %s /-n /b /s /a-d'
-             elseif executable('ag')
-                 let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
-             elseif executable('ack-grep')
-                 let s:ctrlp_fallback = 'ack-grep %s --nocolor -f'
-             elseif executable('ack')
-                 let s:ctrlp_fallback = 'ack %s --nocolor -f'
-             else
-                 let s:ctrlp_fallback = 'find %s -type f'
-             endif
-             let g:ctrlp_user_command = {
-                 \ 'types': {
+         " On Windows use "dir" as fallback command.
+         if WINDOWS()
+             let s:ctrlp_fallback = 'dir %s /-n /b /s /a-d'
+         " elseif executable('ag')
+         "     let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
+         elseif executable('ack-grep')
+             let s:ctrlp_fallback = 'ack-grep %s --nocolor -f'
+         elseif executable('ack')
+             let s:ctrlp_fallback = 'ack %s --nocolor -f'
+         else
+             let s:ctrlp_fallback = 'find %s -type f'
+         endif
+         let g:ctrlp_user_command = {
+                     \ 'types': {
                      \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
                      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-                 \ },
-                 \ 'fallback': s:ctrlp_fallback
-             \ }
+                     \ },
+                     \ 'fallback': s:ctrlp_fallback
+                     \ }
 
-             if isdirectory(expand("~/.vim/bundle/ctrlp-funky/"))
-                 " CtrlP extensions
-                 let g:ctrlp_extensions = ['funky']
+         if isdirectory(expand("~/.vim/bundle/ctrlp-funky/"))
+             " CtrlP extensions
+             let g:ctrlp_extensions = ['funky']
 
-                 "funky
-                 nnoremap <Leader>f :CtrlPFunky<Cr>
-             endif
-
-             if isdirectory(expand("~/.vim/bundle/ctrlp_bdelete.vim/"))
-                 call ctrlp_bdelete#init()
-             endif
-
-             if WINDOWS() && isdirectory(expand("~/.vim/bundle/ctrlp-cmatcher/")) && has('python')
-                 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
-             elseif isdirectory(expand("~/.vim/bundle/ctrlp-py-matcher/")) && has('python')
-                 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-             endif
- "            if isdirectory(expand("~/.vim/bundle/ctrlp-cmatcher/"))
- "                let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
- "            endif
+             "funky
+             nnoremap <Leader>f :CtrlPFunky<Cr>
          endif
- "     "}
+
+         if isdirectory(expand("~/.vim/bundle/ctrlp_bdelete.vim/"))
+             call ctrlp_bdelete#init()
+         endif
+
+         " if WINDOWS() && isdirectory(expand("~/.vim/bundle/ctrlp-cmatcher/")) && has('python')
+         "     let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+         " elseif isdirectory(expand("~/.vim/bundle/ctrlp-py-matcher/")) && has('python')
+         "     let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+         " endif
+         "            if isdirectory(expand("~/.vim/bundle/ctrlp-cmatcher/"))
+         "                let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+         "            endif
+         "}
+     endif
 
  "     " TagBar {
  "         if isdirectory(expand("~/.vim/bundle/tagbar/"))
@@ -555,6 +558,16 @@
              nnoremap <silent> <leader>gg :SignifyToggle<CR>
          endif
      "}
+     " Syntastic {
+     set statusline+=%#warningmsg#
+     set statusline+=%{SyntasticStatuslineFlag()}
+     set statusline+=%*
+     
+     let g:syntastic_always_populate_loc_list = 1
+     let g:syntastic_auto_loc_list = 1
+     let g:syntastic_check_on_open = 1
+     let g:syntastic_check_on_wq = 0
+     " }
 
      " YouCompleteMe {
          if count(g:spf13_bundle_groups, 'youcompleteme')
@@ -951,10 +964,10 @@
          vmap <C-v> <Plug>(expand_region_shrink)
      " }
      " vim-smooth-scroll {
-         noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 5)<CR>
-         noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 5)<CR>
-         noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 10)<CR>
-         noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 10)<CR>
+         " noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 5)<CR>
+         " noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 5)<CR>
+         " noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 10)<CR>
+         " noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 10)<CR>
      " }
      " vim-commentary {
          " Change default string from /*%s*/
@@ -1035,6 +1048,9 @@
                  \   }
                  \ }
      " }
+     " rest api lclient {
+     let g:vrc_cookie_jar = '/tmp/vrc_cookie_jar'
+     " }
  " }
 
  " GUI Settings {
@@ -1053,11 +1069,12 @@
              endif
      else
              set t_Co=256            " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+             " set term=$TERM          " Make powerline fonts and other things work
+             set term=xterm-256color " Make powerline fonts and other things work
              " True color support
              " let &t_8f="\e[38;2;%ld;%ld;%ldm"
              " let &t_8b="\e[48;2;%ld;%ld;%ldm"
              " set guicolors
-         "set term=builtin_ansi       " Make arrow and other keys work
      endif
 
  " }
